@@ -88,7 +88,7 @@ const Nav = () => {
               alt='profile'
               onClick={() => setToggleDropdown(!toggleDropdown)}
             />
-
+            
             {toggleDropdown && (
               <div className='dropdown'>
                 <Link
@@ -103,7 +103,7 @@ const Nav = () => {
                   className='dropdown_link'
                   onClick={() => setToggleDropdown(false)}
                 >
-                  Create Prompt
+                  Create post
                 </Link>
                 <button
                   type='button'
