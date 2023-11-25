@@ -4,6 +4,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 First, run the development server:
 
+Ethiostack
+
+1, you can join easily on gmail account, google authentication integrated.
+
+2. with mongodb database
 ```bash
 npm run dev
 # or
