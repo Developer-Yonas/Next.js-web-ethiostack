@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 
 import PromptCard from "./PromptCard";
+import Footer from "./Footer";
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
@@ -89,7 +90,9 @@ const Feed = () => {
       ) : (
         <PromptCardList data={allPosts} handleTagClick={handleTagClick} />
       )}
+      <Footer/>
     </section>
+    
   );
 };
 
