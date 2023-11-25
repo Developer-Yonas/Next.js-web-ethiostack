@@ -12,22 +12,26 @@ const Nav = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const res = await getProviders();
-      setProviders(res);
-    })();
-  }, []);
+   const setUpproviders = async () => {
+    const response = await getProviders();
+
+    setProviders(response);
+   }
+
+   setUpproviders();
+  }, [])
 
   return (
     <nav className='flex-between w-full mb-16 pt-3'>
       <Link href='/' className='flex gap-2 flex-center'>
-        <Image
-          src='/assets/images/logo.svg'
-          alt='logo'
-          width={30}
-          height={30}
-          className='object-contain'
-        />
+     <Image
+    src='/assets/images/Flag.png'
+    alt='logo'
+    width={30}
+    height={30}
+    className='object-contain rounded-full'
+ />
+
         <p className='logo_text'>EthioStack</p>
       </Link>
 

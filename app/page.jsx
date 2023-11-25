@@ -1,22 +1,19 @@
-import Feed from '@components/Feed';
+import Feed from "@components/Feed";
 
-const Home = () => {
-  return (
-<section className="w-full flex-center flex-col">
-  <h1 className="head_text text-center">
-    Discover & Share
-    <br className="max-md:hidden"></br>
-    <span className="orange_gradient text-center">AI-Powred prompts</span>
+const Home = () => (
+  <section className='w-full flex-center flex-col'>
+   <h1 className='head_text text-center' style={{ color: 'green' }}>
+      Discover & Share
+      <br className='max-md:hidden' />
+      <span className='orange_gradient text-center'> Developers-Powered መልእክቶች(cues)</span>
     </h1>
-    <p className="desc text-center">
-      Ethiostack is an open-source AI prompting tool for modern world to discover, create and share creative prompts. 
+    <p className='desc text-center'>
+      Ethiotack is an open-source Developers-Powered tool for modern world to
+      discover, create and share creative cues.
     </p>
 
-    <Feed/>
-</section>
+    <Feed />
+  </section>
+);
 
-
-  )
-}
-
-export default Home
+export default Home;

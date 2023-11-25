@@ -1,31 +1,28 @@
-import '@styles/globals.css';
-import Nav from '@components/Nav';
-import Provider from '@components/Provider';
+import "@styles/globals.css";
 
-export const metadata ={
-    title:'ethiostack',
-    description: 'Discover and share AI prompts'
-}
+import Nav from "@components/Nav";
+import Provider from "@components/Provider";
 
-const RootLayout = ({children}) => {
-  return (
-<html lang='en'>
-<body>
-<Provider>
+export const metadata = {
+  title: "Ethiostack",
+  description: "Discover & Share Developers cues",
+};
 
-        <div className="main">
-            <div className="gradient"/>
+const RootLayout = ({ children }) => (
+  <html lang='en'>
+    <body>
+      <Provider>
+        <div className='main'>
+          <div className='gradient' />
         </div>
 
-      <main className="app">
-        <Nav/>
-        {children}
-      </main>
+        <main className='app'>
+          <Nav />
+          {children}
+        </main>
+      </Provider>
+    </body>
+  </html>
+);
 
-</Provider>
-</body>
-</html>
-  )
-}
-
-export default RootLayout
+export default RootLayout;
