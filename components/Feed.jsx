@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 
 import PromptCard from "./PromptCard";
-import Footer from "./Footer";
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
@@ -28,18 +27,11 @@ const Feed = () => {
   const [searchedResults, setSearchedResults] = useState([]);
 
   const fetchPosts = async () => {
-    try {
-      const response = await fetch("/api/prompt");
-      const data = await response.json();
-  
-      console.log("Fetched data:", data);
-  
-      setAllPosts(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    const response = await fetch("/api/prompt");
+    const data = await response.json();
+
+    setAllPosts(data);
   };
-  
 
   useEffect(() => {
     fetchPosts();
@@ -97,11 +89,7 @@ const Feed = () => {
       ) : (
         <PromptCardList data={allPosts} handleTagClick={handleTagClick} />
       )}
-
-<Footer/>
-      
     </section>
-    
   );
 };
 
