@@ -8,7 +8,7 @@ const Home = () => (
       <span className='orange_gradient text-center'> Developers-Powered መልእክቶች(cues)</span>
     </h1>
     <p className='desc text-center'>
-      Ethiotack is an open-source Developers-Powered tool for modern world to
+      EthioStack is an open-source Developers-Powered tool for modern world to
       discover, create and share creative cues.
     </p>
 

@@ -24,7 +24,7 @@ const Footer = () => {
         {/* Add more social media links as needed */}
       </div>
       <div className="copyright">
-        &copy; 2023 By: Yonas Woldegerima. All rights reserved.
+        &copy; 2023 By : Yonas Woldegerima. All rights reserved.
       </div>
     </footer>
   );

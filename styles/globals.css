@@ -168,3 +168,14 @@
 .flex-between {
   @apply flex justify-between items-center;
 }
+
+.copyright {
+  text-align: center;
+  font-size: 18px; /* Set an initial font size */
+
+  /* Media query for smaller screens */
+ @media only screen and (max-width: 400px) {
+    font-size: 16px; /* Adjust font size for smaller screens */
+    /* You can also add additional styles or modify the layout for smaller screens */
+  }
+}
