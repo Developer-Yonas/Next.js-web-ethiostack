@@ -82,12 +82,12 @@ const Feed = () => {
 
       {/* All Prompts */}
       {searchText ? (
-        <PromptCardList
+        <PromptCard
           data={searchedResults}
           handleTagClick={handleTagClick}
         />
       ) : (
-        <PromptCardList data={allPosts} handleTagClick={handleTagClick} />
+        <PromptCard data={allPosts} handleTagClick={handleTagClick} />
       )}
     </section>
   );
