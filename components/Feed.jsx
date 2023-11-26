@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Footer from "./Footer";
+
 import PromptCard from "./PromptCard";
+import Footer from "./Footer";
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
@@ -19,23 +20,25 @@ const PromptCardList = ({ data, handleTagClick }) => {
 };
 
 const Feed = () => {
-  const [allPosts, setAllPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
 
   // Search states
   const [searchText, setSearchText] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
 
+ useEffect(() => {
   const fetchPosts = async () => {
-    const response = await fetch(`/api/prompt`);
+    const response = await fetch ('/api/prompt');
     const data = await response.json();
-    setAllPosts(data);
-  };
-  
-  useEffect(() => {
-    fetchPosts();
-  }, [allPosts]);// Include allPosts in the dependency array
-  
+
+    setPosts(data);
+  }
+
+  console.log(posts);
+
+  fetchPosts();
+ }, []);
 
   const filterPrompts = (searchtext) => {
     const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
@@ -83,15 +86,16 @@ const Feed = () => {
       {/* All Prompts */}
       {searchText ? (
         <PromptCardList
-        data={searchText ? searchedResults : allPosts}
+          data={searchedResults}
           handleTagClick={handleTagClick}
         />
       ) : (
-        <PromptCardList data={allPosts} handleTagClick={handleTagClick} />
+        <PromptCardList data={posts} handleTagClick={handleTagClick} />
       )}
+
       <Footer/>
     </section>
-  );  
+  );
 };
 
 export default Feed;
