@@ -13,7 +13,7 @@ const UserProfile = ({ params }) => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch(`${process.env.PUBLIC_URL}/api/users/${params?.id}/posts`);
+      const response = await fetch(`${window.location.origin}/api/users/${params?.id}/posts`);
       const data = await response.json();
 
       setUserPosts(data);
