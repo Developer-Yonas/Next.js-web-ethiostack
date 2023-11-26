@@ -18,8 +18,8 @@ const CreatePrompt = () => {
     setIsSubmitting(true);
 
     try {
-      const baseUrl = process.env.PUBLIC_URL || ''; // Use PUBLIC_URL if available
-    const response = await fetch(`${baseUrl}/api/prompt/new`, {
+      // const baseUrl = process.env.PUBLIC_URL || ''; // Use PUBLIC_URL if available
+    const response = await fetch(`/api/prompt/new`, {
         method: "POST",
         body: JSON.stringify({
           prompt: post.prompt,

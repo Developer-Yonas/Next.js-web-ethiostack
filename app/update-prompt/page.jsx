@@ -15,7 +15,7 @@ const UpdatePrompt = () => {
 
   useEffect(() => {
     const getPromptDetails = async () => {
-      const response = await fetch(`/api/users/${params?.id}/posts`);
+      const response = await fetch(`/api/prompt/${promptId}`);
       const data = await response.json();
 
       setPost({
@@ -34,8 +34,8 @@ const UpdatePrompt = () => {
     if (!promptId) return alert("Missing PromptId!");
 
     try { 
-      const baseUrl = process.env.PUBLIC_URL || ''; // Use PUBLIC_URL if available
-      const response = await fetch(`${baseUrl}/api/prompt/${promptId}`, {
+      // const baseUrl = process.env.PUBLIC_URL || ''; // Use PUBLIC_URL if available
+      const response = await fetch(`/api/prompt/${promptId}`, {
         method: "PATCH",
         body: JSON.stringify({
           prompt: post.prompt,
