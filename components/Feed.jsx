@@ -38,7 +38,7 @@ const Feed = () => {
 
   useEffect(() => { 
     fetchPosts();
-  }, [allPosts]); // Include allPosts in the dependency array
+  }, []);   // Include allPosts in the dependency array
   
 
   const filterPrompts = (searchtext) => {
