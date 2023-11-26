@@ -35,7 +35,7 @@ const UpdatePrompt = () => {
 
     try { 
       // const baseUrl = process.env.PUBLIC_URL || ''; // Use PUBLIC_URL if available
-      const response = await fetch(`/api/prompt/${promptId}`, {
+      const response = await fetch(`${window.location.origin}/api/prompt/${promptId}`, {
         method: "PATCH",
         body: JSON.stringify({
           prompt: post.prompt,
