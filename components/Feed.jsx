@@ -25,7 +25,7 @@ const Feed = () => {
   const [searchText, setSearchText] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
-
+  useEffect(() => {
   const fetchPosts = async () => {
     // const response = await fetch(`/api/prompt?timestamp=${new Date().getTime()}`);
 
@@ -38,7 +38,7 @@ const Feed = () => {
     setAllPosts(data);
   };
 
-  useEffect(() => { 
+  
     fetchPosts();
   }, [allPosts]); // Include allPosts in the dependency array
   
