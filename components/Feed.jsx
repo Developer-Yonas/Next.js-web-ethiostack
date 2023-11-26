@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
+import Footer from "./Footer";
 import PromptCard from "./PromptCard";
 
 const PromptCardList = ({ data, handleTagClick }) => {
@@ -94,6 +94,7 @@ const Feed = () => {
       ) : (
         <PromptCardList data={allPosts} handleTagClick={handleTagClick} />
       )}
+      <Footer/>
     </section>
   );
 };
