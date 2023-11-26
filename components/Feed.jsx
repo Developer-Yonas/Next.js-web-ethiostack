@@ -39,7 +39,8 @@ const Feed = () => {
 
   useEffect(() => { 
     fetchPosts();
-  }, []);
+  }, [allPosts]); // Include allPosts in the dependency array
+  
 
   const filterPrompts = (searchtext) => {
     const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
@@ -87,7 +88,7 @@ const Feed = () => {
       {/* All Prompts */}
       {searchText ? (
         <PromptCardList
-          data={searchedResults}
+        data={searchText ? searchedResults : allPosts}
           handleTagClick={handleTagClick}
         />
       ) : (
