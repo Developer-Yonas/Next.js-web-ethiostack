@@ -27,22 +27,14 @@ const Feed = () => {
   const [searchedResults, setSearchedResults] = useState([]);
 
   const fetchPosts = async () => {
-    try {
-      const response = await fetch(`/api/prompt`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch prompt data');
-      }
-      const data = await response.json();
-      setAllPosts(data);
-    } catch (error) {
-      console.error('Error fetching prompt data:', error);
-    }
+    const response = await fetch(`/api/prompt`);
+    const data = await response.json();
+    setAllPosts(data);
   };
   
   useEffect(() => {
     fetchPosts();
-  }, [/* Dependencies */]);
-   // Include allPosts in the dependency array
+  }, [allPosts]);// Include allPosts in the dependency array
   
 
   const filterPrompts = (searchtext) => {
