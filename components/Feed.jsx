@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
+import Footer from "./Footer";
 import PromptCard from "./PromptCard";
 
 const PromptCardList = ({ data, handleTagClick }) => {
@@ -27,18 +27,22 @@ const Feed = () => {
   const [searchedResults, setSearchedResults] = useState([]);
 
   const fetchPosts = async () => {
-    // const response = await fetch(`/api/prompt?timestamp=${new Date().getTime()}`);
-
-    const response = await fetch(`/api/prompt`);
-
-    const data = await response.json();
-
-    setAllPosts(data);
+    try {
+      const response = await fetch(`/api/prompt`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch prompt data');
+      }
+      const data = await response.json();
+      setAllPosts(data);
+    } catch (error) {
+      console.error('Error fetching prompt data:', error);
+    }
   };
-
-  useEffect(() => { 
+  
+  useEffect(() => {
     fetchPosts();
-  }, [allPosts]);   // Include allPosts in the dependency array
+  }, [/* Dependencies */]);
+   // Include allPosts in the dependency array
   
 
   const filterPrompts = (searchtext) => {
@@ -93,8 +97,9 @@ const Feed = () => {
       ) : (
         <PromptCardList data={allPosts} handleTagClick={handleTagClick} />
       )}
+      <Footer/>
     </section>
-  );
+  );  
 };
 
 export default Feed;
