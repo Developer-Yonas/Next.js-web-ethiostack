@@ -27,7 +27,11 @@ const Feed = () => {
   const [searchedResults, setSearchedResults] = useState([]);
 
   const fetchPosts = async () => {
-    const response = await fetch(`https://ethiostack.vercel.app/api/prompt?timestamp=${new Date().getTime()}`);
+    // const response = await fetch(`/api/prompt?timestamp=${new Date().getTime()}`);
+
+    const baseUrl = process.env.PUBLIC_URL || ''; // Use PUBLIC_URL if available
+    const response = await fetch(`${baseUrl}/api/prompt`);
+
     const data = await response.json();
 
     setAllPosts(data);
