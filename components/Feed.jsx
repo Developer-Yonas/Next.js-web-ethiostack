@@ -30,7 +30,8 @@ const Feed = () => {
     // const response = await fetch(`/api/prompt?timestamp=${new Date().getTime()}`);
 
     // const baseUrl = process.env.PUBLIC_URL || ''; // Use PUBLIC_URL if available
-    const response = await fetch(`${process.env.PUBLIC_URL}/api/prompt`);
+    const response = await fetch(`${window.location.origin}/api/prompt`);
+
 
     const data = await response.json();
 
