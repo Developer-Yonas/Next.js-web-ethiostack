@@ -29,29 +29,30 @@ const Feed = () => {
 
 
   useEffect(() => {
-    const ws = new WebSocket('ws://ethiostack.vercel.app');
-
+    const ws = new WebSocket('wss://ethiostack.vercel.app'); // Use wss for secure WebSocket connection
+  
     ws.onmessage = function(event) {
       const data = JSON.parse(event.data);
       setPosts(data); // Update the posts with real-time data
     };
-
+  
     return () => {
       ws.close(); // Close the WebSocket connection when the component unmounts
     };
   }, []);
-
+  
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch('/api/prompt');
+      const response = await fetch('https://ethiostack.vercel.app/api/prompt'); // Use HTTPS for fetch request
       const data = await response.json();
       setPosts(data);
     };
-
+  
     fetchPosts();
   }, []);
-
+  
   console.log(posts);
+  
 
   const filterPrompts = (searchtext) => {
     const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
