@@ -27,18 +27,19 @@ const Feed = () => {
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
 
- useEffect(() => {
-  const fetchPosts = async () => {
-    const response = await fetch ('/api/prompt');
-    const data = await response.json();
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('/api/prompt');
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error('Failed to fetch posts', error);
+      }
+    };
 
-    setPosts(data);
-  }
-
-  console.log(posts);
-
-  fetchPosts();
- }, []);
+    fetchPosts();
+  }, []);
 
   const filterPrompts = (searchtext) => {
     const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
