@@ -27,19 +27,33 @@ const Feed = () => {
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
 
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch('/api/prompt');
-        const data = await response.json();
-        setPosts(data);
-      } catch (error) {
-        console.error('Failed to fetch posts', error);
-      }
+    const ws = new WebSocket('ws://localhost:3000');
+
+    ws.onmessage = function(event) {
+      const data = JSON.parse(event.data);
+      setPosts(data); // Update the posts with real-time data
     };
 
-    fetchPosts();
+    return () => {
+      ws.close(); // Close the WebSocket connection when the component unmounts
+    };
   }, []);
+
+
+ useEffect(() => {
+  const fetchPosts = async () => {
+    const response = await fetch ('/api/prompt');
+    const data = await response.json();
+
+    setPosts(data);
+  }
+
+  console.log(posts);
+
+  fetchPosts();
+ }, []);
 
   const filterPrompts = (searchtext) => {
     const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
