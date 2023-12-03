@@ -9,7 +9,7 @@ const app = express();
 const PORT = 3000;
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:3000/share_prompt', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://ethiostack.vercel.app/share_prompt', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Create a WebSocket server
 const wss = new WebSocket.Server({ port: 8080 });

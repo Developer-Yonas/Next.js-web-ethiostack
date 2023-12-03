@@ -29,7 +29,7 @@ const Feed = () => {
 
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:3000');
+    const ws = new WebSocket('ws://ethiostack.vercel.app');
 
     ws.onmessage = function(event) {
       const data = JSON.parse(event.data);
