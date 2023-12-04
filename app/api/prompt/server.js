@@ -1,7 +1,5 @@
-// server.js
-
 const express = require('express');
-const WebSocket = require('ws');
+const WebSocket = require('ws'); // Use 'ws' for WebSocket server
 const mongoose = require('mongoose');
 const Prompt = require('./models/prompt');
 
@@ -24,6 +22,7 @@ app.get('/api/prompt', async (req, res) => {
     const prompts = await Prompt.find({}).populate('creator');
     res.json(prompts);
   } catch (error) {
+    console.error('Failed to fetch prompts:', error); // Log the error
     res.status(500).json({ error: 'Failed to fetch prompts' });
   }
 });
@@ -32,12 +31,3 @@ app.get('/api/prompt', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-
-
-
-
-
-
-
-

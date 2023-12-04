@@ -29,7 +29,23 @@ const Feed = () => {
 
 
   useEffect(() => {
-    const ws = new WebSocket('wss://ethiostack.vercel.app'); // Use wss for secure WebSocket connection
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('/api/prompt');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const data = await response.json();
+        setPosts(data);
+        console.log(data); // Log the retrieved data
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchPosts();
+  
+    const ws = new WebSocket('ws://ethiostack.vercel.app'); // Use ws for WebSocket connection in a local environment
   
     ws.onmessage = function(event) {
       const data = JSON.parse(event.data);
@@ -40,18 +56,6 @@ const Feed = () => {
       ws.close(); // Close the WebSocket connection when the component unmounts
     };
   }, []);
-  
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch('https://ethiostack.vercel.app/api/prompt'); // Use HTTPS for fetch request
-      const data = await response.json();
-      setPosts(data);
-    };
-  
-    fetchPosts();
-  }, []);
-  
-  console.log(posts);
   
 
   const filterPrompts = (searchtext) => {
