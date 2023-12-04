@@ -20,12 +20,14 @@ wss.on('connection', function connection(ws) {
 app.get('/api/prompt', async (req, res) => {
   try {
     const prompts = await Prompt.find({}).populate('creator');
+    res.setHeader('Cache-Control', 'no-store'); // Add cache-control header to disable caching
     res.json(prompts);
   } catch (error) {
     console.error('Failed to fetch prompts:', error); // Log the error
     res.status(500).json({ error: 'Failed to fetch prompts' });
   }
 });
+
 
 // Start the Express server
 app.listen(PORT, () => {
