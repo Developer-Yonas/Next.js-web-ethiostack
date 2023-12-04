@@ -45,7 +45,7 @@ const Feed = () => {
   
     fetchPosts();
   
-    const ws = new WebSocket('ws://ethiostack.vercel.app'); // Use ws for WebSocket connection in a local environment
+    const ws = new WebSocket('wss://ethiostack.vercel.app'); // Use ws for WebSocket connection in a local environment
   
     ws.onmessage = function(event) {
       const data = JSON.parse(event.data);
