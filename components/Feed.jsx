@@ -45,17 +45,38 @@ const Feed = () => {
   
     fetchPosts();
   
-    const ws = new WebSocket('ws://localhost:8080'); // Replace with the correct WebSocket server URL
+    const connectWebSocket = async () => {
+      // Add a delay of 1 second before initiating the WebSocket connection
+      await new Promise((resolve) => setTimeout(resolve, 1000));
   
-    ws.onmessage = function(event) {
-      const data = JSON.parse(event.data);
-      setPosts(data); // Update the posts with real-time data
+      const ws = new WebSocket('wss://ethiostack.vercel.app:8000'); // Use 'wss' for secure WebSocket connections
+
+  
+      ws.onopen = () => {
+        console.log('WebSocket connection opened');
+      };
+  
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        setPosts(data);
+      };
+  
+      ws.onclose = (event) => {
+        console.log('WebSocket connection closed:', event.code, event.reason);
+      };
+  
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+      };
+  
+      return () => {
+        ws.close(); // Close the WebSocket connection when the component unmounts
+      };
     };
   
-    return () => {
-      ws.close(); // Close the WebSocket connection when the component unmounts
-    };
+    connectWebSocket();
   }, []);
+  
   
   
 
