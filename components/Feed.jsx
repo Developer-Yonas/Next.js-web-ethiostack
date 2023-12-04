@@ -45,7 +45,7 @@ const Feed = () => {
   
     fetchPosts();
   
-    const ws = new WebSocket('wss://ethiostack.vercel.app'); // Use ws for WebSocket connection in a local environment
+    const ws = new WebSocket('ws://localhost:8080'); // Replace with the correct WebSocket server URL
   
     ws.onmessage = function(event) {
       const data = JSON.parse(event.data);
@@ -56,6 +56,7 @@ const Feed = () => {
       ws.close(); // Close the WebSocket connection when the component unmounts
     };
   }, []);
+  
   
 
   const filterPrompts = (searchtext) => {
