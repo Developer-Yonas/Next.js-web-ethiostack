@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Prompt = require('./models/prompt');
 
 const app = express();
-const PORT = 3000;
+const PORT = 8000;
 
 // Connect to MongoDB
 mongoose.connect('mongodb://ethiostack.vercel.app/share_prompt', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -32,21 +32,55 @@ server.on('upgrade', (request, socket, head) => {
 wss.on('connection', function connection(ws, req) {
   console.log('A new client connected');
 
-  // Add logic to handle CORS, e.g., check req.headers.origin
-
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
   });
 });
 
+// Function to fetch the latest prompts from the database
+const fetchLatestPrompts = async () => {
+  try {
+    const prompts = await Prompt.find({}).populate('creator');
+    return prompts;
+  } catch (error) {
+    console.error('Failed to fetch prompts:', error);
+    throw error;
+  }
+};
+
 // API endpoint to fetch prompts
 app.get('/api/prompt', async (req, res) => {
   try {
-    const prompts = await Prompt.find({}).populate('creator');
+    const prompts = await fetchLatestPrompts();
     res.setHeader('Cache-Control', 'no-store'); // Add cache-control header to disable caching
     res.json(prompts);
   } catch (error) {
-    console.error('Failed to fetch prompts:', error); // Log the error
+    console.error('Failed to fetch prompts:', error);
     res.status(500).json({ error: 'Failed to fetch prompts' });
   }
+});
+
+// Send real-time updates to connected clients
+const sendRealTimeUpdates = async () => {
+  try {
+    const latestPrompts = await fetchLatestPrompts();
+    wss.clients.forEach(client => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify(latestPrompts));
+      }
+    });
+  } catch (error) {
+    console.error('Failed to send real-time updates:', error);
+  }
+};
+
+// Set up change detection in the database to trigger real-time updates
+// For example, if using MongoDB, you can use change streams to listen for changes in the database and trigger real-time updates to connected clients
+
+// Example change stream setup for MongoDB
+const promptCollection = mongoose.connection.collection('prompts');
+const changeStream = promptCollection.watch();
+changeStream.on('change', (change) => {
+  console.log('Change detected:', change);
+  sendRealTimeUpdates();
 });
