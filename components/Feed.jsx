@@ -1,9 +1,7 @@
-"use client";
-
 import { useState, useEffect } from "react";
-
 import PromptCard from "./PromptCard";
 import Footer from "./Footer";
+import Ably from "ably/promises";
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
@@ -21,12 +19,9 @@ const PromptCardList = ({ data, handleTagClick }) => {
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
-
-  // Search states
   const [searchText, setSearchText] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
-
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -42,46 +37,24 @@ const Feed = () => {
         console.error('Error fetching data:', error);
       }
     };
-  
-    fetchPosts();
-  
-    const connectWebSocket = async () => {
-      // Add a delay of 1 second before initiating the WebSocket connection
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-  
-      const ws = new WebSocket('wss://ethiostack.vercel.app:3000'); // Use 'wss' for secure WebSocket connections
 
-  
-      ws.onopen = () => {
-        console.log('WebSocket connection opened');
-      };
-  
-      ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        setPosts(data);
-      };
-  
-      ws.onclose = (event) => {
-        console.log('WebSocket connection closed:', event.code, event.reason);
-      };
-  
-      ws.onerror = (error) => {
-        console.error('WebSocket error:', error);
-      };
-  
-      return () => {
-        ws.close(); // Close the WebSocket connection when the component unmounts
-      };
+    fetchPosts();
+
+    const ably = new Ably.Realtime('DxnTXw.66i3Jg:nSFPE1ZkIPMRTxJeEAtaX1TSVeh_8EDi_8J7rw3_XwI');
+    const channel = ably.channels.get('prompt-updates');
+
+    channel.subscribe('update', (message) => {
+      setPosts(message.data);
+    });
+
+    return () => {
+      channel.unsubscribe();
+      ably.close();
     };
-  
-    connectWebSocket();
   }, []);
-  
-  
-  
 
   const filterPrompts = (searchtext) => {
-    const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
+    const regex = new RegExp(searchtext, "i");
     return posts.filter(
       (item) =>
         regex.test(item.creator.username) ||
@@ -94,7 +67,6 @@ const Feed = () => {
     clearTimeout(searchTimeout);
     setSearchText(e.target.value);
 
-    // debounce method
     setSearchTimeout(
       setTimeout(() => {
         const searchResult = filterPrompts(e.target.value);
@@ -105,7 +77,6 @@ const Feed = () => {
 
   const handleTagClick = (tagName) => {
     setSearchText(tagName);
-
     const searchResult = filterPrompts(tagName);
     setSearchedResults(searchResult);
   };
@@ -123,12 +94,8 @@ const Feed = () => {
         />
       </form>
 
-      {/* All Prompts */}
       {searchText ? (
-        <PromptCardList
-          data={searchedResults}
-          handleTagClick={handleTagClick}
-        />
+        <PromptCardList data={searchedResults} handleTagClick={handleTagClick} />
       ) : (
         <PromptCardList data={posts} handleTagClick={handleTagClick} />
       )}

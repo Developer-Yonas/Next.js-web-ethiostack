@@ -1,10 +1,14 @@
 const express = require('express');
-const WebSocket = require('ws'); // Use 'ws' for WebSocket server
+const cors = require('cors');
+const WebSocket = require('ws');
 const mongoose = require('mongoose');
 const Prompt = require('./models/prompt');
 
 const app = express();
-const PORT = 8000;
+const PORT = 3000;
+
+// Enable CORS for all routes
+app.use(cors());
 
 // Connect to MongoDB
 mongoose.connect('mongodb://ethiostack.vercel.app/share_prompt', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -52,7 +56,7 @@ const fetchLatestPrompts = async () => {
 app.get('/api/prompt', async (req, res) => {
   try {
     const prompts = await fetchLatestPrompts();
-    res.setHeader('Cache-Control', 'no-store'); // Add cache-control header to disable caching
+    res.setHeader('Cache-Control', 'no-store');
     res.json(prompts);
   } catch (error) {
     console.error('Failed to fetch prompts:', error);
@@ -75,12 +79,12 @@ const sendRealTimeUpdates = async () => {
 };
 
 // Set up change detection in the database to trigger real-time updates
-// For example, if using MongoDB, you can use change streams to listen for changes in the database and trigger real-time updates to connected clients
-
-// Example change stream setup for MongoDB
 const promptCollection = mongoose.connection.collection('prompts');
 const changeStream = promptCollection.watch();
 changeStream.on('change', (change) => {
   console.log('Change detected:', change);
   sendRealTimeUpdates();
 });
+
+// Serverless function export
+module.exports = app;
