@@ -34,19 +34,20 @@
           const data = await response.json();
           setPosts(data);
           console.log(data); // Log the retrieved data
+      
+          const ably = new Ably.Realtime('YOUR_ABLY_API_KEY');
+          const channel = ably.channels.get('prompt-updates');
+      
+          channel.subscribe('update', (message) => {
+            setPosts(message.data);
+          });
         } catch (error) {
           console.error('Error fetching data:', error);
         }
       };
 
-      fetchPosts();
-
-      const ably = new Ably.Realtime('DxnTXw.66i3Jg:nSFPE1ZkIPMRTxJeEAtaX1TSVeh_8EDi_8J7rw3_XwI');
-      const channel = ably.channels.get('prompt-updates');
-
-      channel.subscribe('update', (message) => {
-        setPosts(message.data);
-      });
+      fetchPosts ();
+      
 
       return () => {
         channel.unsubscribe();
