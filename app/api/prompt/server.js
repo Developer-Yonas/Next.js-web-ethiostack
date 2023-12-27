@@ -71,11 +71,8 @@ app.get('/api/prompt', async (req, res) => {
 const sendRealTimeUpdates = async () => {
   try {
     const latestPrompts = await fetchLatestPrompts();
-    wss.clients.forEach(client => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify(latestPrompts));
-      }
-    });
+    const channel = ably.channels.get('prompt-updates');
+    channel.publish('update', JSON.stringify(latestPrompts));
   } catch (error) {
     console.error('Failed to send real-time updates:', error);
   }
