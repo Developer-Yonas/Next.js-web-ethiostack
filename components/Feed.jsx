@@ -1,4 +1,4 @@
-'use client'
+'use client' ;
   import { useState, useEffect } from "react";
   import PromptCard from "./PromptCard";
   import Footer from "./Footer";
