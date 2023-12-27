@@ -49,7 +49,7 @@ const Feed = () => {
       // Add a delay of 1 second before initiating the WebSocket connection
       await new Promise((resolve) => setTimeout(resolve, 1000));
   
-      const ws = new WebSocket('wss://ethiostack.vercel.app:8000'); // Use 'wss' for secure WebSocket connections
+      const ws = new WebSocket('wss://ethiostack.vercel.app:3000'); // Use 'wss' for secure WebSocket connections
 
   
       ws.onopen = () => {
