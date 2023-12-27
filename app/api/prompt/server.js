@@ -3,6 +3,7 @@ const cors = require('cors');
 const WebSocket = require('ws');
 const mongoose = require('mongoose');
 const Prompt = require('./models/prompt');
+const Ably = require('ably');
 
 const app = express();
 const PORT = 3000;
@@ -22,6 +23,8 @@ const wss = new WebSocket.Server({
     callback(isValid);
   },
 });
+
+const ably = new Ably.Realtime(process.env.ABLY_API_KEY);
 
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
@@ -68,11 +71,8 @@ app.get('/api/prompt', async (req, res) => {
 const sendRealTimeUpdates = async () => {
   try {
     const latestPrompts = await fetchLatestPrompts();
-    wss.clients.forEach(client => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify(latestPrompts));
-      }
-    });
+    const channel = ably.channels.get('prompt-updates');
+    channel.publish('update', JSON.stringify(latestPrompts));
   } catch (error) {
     console.error('Failed to send real-time updates:', error);
   }
